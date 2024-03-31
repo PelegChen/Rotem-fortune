@@ -5,16 +5,16 @@ import React, { useEffect, useRef } from 'react';
  * @param {()=>void} callback
  * @param {number} delayInMilliseconds
  */
-export const useInterval = (callback: React.MutableRefObject<any>, delayInMilliseconds: number) => {
+export const useInterval = (callback: any, delayInMilliseconds: number) => {
     /** @type {React.MutableRefObject<any>}  */
     const savedCallback = useRef();
 
     // Remember the latest callback.
     useEffect(() => {
-        if (savedCallback.current) {
+
 
             savedCallback.current = callback as any;
-        }
+
     }, [callback]);
 
     // Set up the interval.
