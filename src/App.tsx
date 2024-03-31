@@ -15,21 +15,29 @@ function App() {
                     </div>
 
                 </div>
-                <div className={'flex flex-row  justify-center items-center my-3 '}  dir={'rtl'}>
+                <div className={'flex flex-row  justify-center items-center my-3 '} dir={'rtl'}>
 
-                    <select defaultValue={'בחרי אחרת'} style={{backgroundColor : 'black',
-                        color :  'white'}}>
+                    <select defaultValue={'בחרי אחרת'} style={{
+                        backgroundColor: 'black',
+                        color: 'white',
+                    }}>
                         <option> בחרי אחת אחרת</option>
-                        <option>מתילדה </option>
+                        <option>מתילדה</option>
                     </select>
                 </div>
-                <div id={'image-container'} className={'relative max-h-screen flex flex-row justify-center  bg-violet-400 '}>
-                    <div id={'behind-fortune-teller'} className={'absolute p-4 bg-red-400   w-full h-full'}>
+                <div id={'image-container'} className={'relative max-h-screen flex flex-row justify-center  '}>
+
+                    <div className={'relative'}>
+                        <div id={'behind-fortune-teller-container'} className={'absolute p-8   w-full h-full  z-0'}>
+                            <div className={'bg-red-400   w-full h-full z-0'}></div>
+                        </div>
+                        <div className={'relative z-20'}>
+                            <img src={teller} style={{ boxShadow: '0 0 20px 4px white' }}
+                                 alt="fortune teller" className=" h-full  object-scale-down rounded-[70px] z-20" />
+                        </div>
+
 
                     </div>
-
-                    <img src={teller} style={{ boxShadow: '0 0 20px 4px white' }}
-                         alt="fortune teller" className="h-full  object-scale-down rounded-[70px]" />
 
                 </div>
             </div>
