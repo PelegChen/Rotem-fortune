@@ -1,6 +1,7 @@
 import teller from './assets/images/ft_1.png';
 
 import './App.css';
+import { createMagicBallGradient } from './functions/createMagicBallGradient.ts';
 
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
                     </div>
 
                 </div>
-                <div className={'flex flex-row  justify-center items-center my-3 '} dir={'rtl'}>
+                <div className={'flex flex-row  justify-center items-center mt-0 mb-7 '} dir={'rtl'}>
 
                     <select defaultValue={'בחרי אחרת'} style={{
                         backgroundColor: 'black',
@@ -29,7 +30,9 @@ function App() {
 
                     <div className={'relative'}>
                         <div id={'behind-fortune-teller-container'} className={'absolute p-8   w-full h-full  z-0'}>
-                            <div className={'bg-red-400   w-full h-full z-0'}></div>
+                            <div style={{background : createMagicBallGradient(12)}} className={'    w-full h-full z-0'}>
+
+                            </div>
                         </div>
                         <div className={'relative z-20'}>
                             <img src={teller} style={{ boxShadow: '0 0 20px 4px white' }}
