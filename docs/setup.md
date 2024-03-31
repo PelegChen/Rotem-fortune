@@ -21,6 +21,7 @@ npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-pret
 ```bash
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
+npm i -D prettier-plugin-tailwindcss
 ```
  
 
