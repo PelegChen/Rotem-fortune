@@ -5,8 +5,22 @@
 
 ## Npm installations
 
+### Vite
+
 ```bash
 npm create vite@latest rotem-fortune -- --template react-ts 
+```
+
+### Eslint and prettier
+
+```bash
+npm install --save-dev eslint prettier eslint-config-prettier eslint-plugin-prettier
+``` 
+### Tailwind CSS
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
 ```
  
 
