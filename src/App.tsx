@@ -88,7 +88,8 @@ function App() {
 
                         <button onClick={() => setIsPopupOpen(true)}
                                 className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
-                            {character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}
+                            {/*{character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}*/}
+                           עצה מכדור הקסם
                         </button>
                     </div>
                 </div>

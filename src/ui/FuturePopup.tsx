@@ -18,10 +18,10 @@ export const FuturePopup = ({
                     }
                 >
                     <div>
-                        <p className={'bg-white text-[2rem] text-black'}>
+                        <div className={'bg-white text-[2rem] text-black'}>
                             {builtTextContent(fortunes[0].text)}
 
-                        </p>
+                        </div>
                     </div>
                     <div className={'flex flex-row gap-4 '}>
 
