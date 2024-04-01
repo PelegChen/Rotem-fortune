@@ -2,10 +2,10 @@ import './App.css';
 import { useInterval } from './hooks/useInterval.ts';
 import React from 'react';
 import { characters } from './data/characters.ts';
-import { buildSrcFromChar } from './utils/buildSrcFromChar.ts';
 import { BallsOfLight } from './animations/BallsOfLight/BallsOfLight.tsx';
 import { FuturePopup } from './ui/FuturePopup.tsx';
 import { useWindowSize } from './hooks/useWindowResize.ts';
+import { getImageSource } from './images/getImageSource.ts';
 
 function App() {
     const [bgColor, setBgColor] = React.useState(100);
@@ -73,7 +73,7 @@ function App() {
                         </div>
                         <div className={'relative z-20'}>
                             <img
-                                src={buildSrcFromChar(character)}
+                                src={getImageSource(character.name)}
                                 style={{ boxShadow: '0 0 20px 4px white' }}
                                 alt="fortune teller" className=" h-full  object-scale-down rounded-[7px] z-20" />
                         </div>
