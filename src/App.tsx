@@ -5,10 +5,15 @@ import { characters } from './data/characters.ts';
 import { buildSrcFromChar } from './utils/buildSrcFromChar.ts';
 import { BallsOfLight } from './animations/BallsOfLight/BallsOfLight.tsx';
 import { FuturePopup } from './ui/FuturePopup.tsx';
+import { useWindowSize } from './hooks/useWindowResize.ts';
 
 function App() {
     const [bgColor, setBgColor] = React.useState(100);
     const [character, setCharacter] = React.useState(characters[0]);
+    const [isPopupOpen, setIsPopupOpen] = React.useState(true);
+const  [width]= useWindowSize();
+
+const translateX = width > 768 ?  0 :( width  - 768) /  2;
     useInterval(() => {
         if (bgColor >= 255) {
             setBgColor(0);
@@ -25,9 +30,11 @@ function App() {
 
     return (
         <>
-            <div className={'w-screen h-screen overflow-y-hidden bg-black flex flex-col  text-white font-bold'}>
-                <FuturePopup setOpen={() => {
-                }} open={true} />
+            <div className={'w-screen h-screen overflow-y-hidden bg-black flex flex-col justify-between  text-white font-bold'}>
+                <FuturePopup setOpen={setIsPopupOpen} open={isPopupOpen} />
+                <div>
+
+
                 <div id={'upper-text-container'} style={{ lineHeight: '105%' }}
                      className={'flex flex-row justify-center  items-center my-4  text-[2rem]'}>
                     <div className={'  flex justify-center items-center flex-row '} dir={'rtl'}>
@@ -48,7 +55,9 @@ function App() {
 
                     </select>
                 </div>
-                <div id={'image-container'} className={'relative max-h-screen flex flex-row justify-center  '}>
+                </div>
+                <div style={{transform: `translateX(${translateX}px)`}} id={'image-container'} className={`relative max-h-screen flex flex-row justify-center items-start md:w-full  
+                       w-[786px]  `}>
 
                     <div className={'relative'}>
                         <div id={'behind-fortune-teller-container'} className={'absolute p-8   w-full h-full  z-0'}>
@@ -61,7 +70,7 @@ function App() {
                                 // src={teller}
                                 src={buildSrcFromChar(character)}
                                 style={{ boxShadow: '0 0 20px 4px white' }}
-                                alt="fortune teller" className=" h-full  object-scale-down rounded-[70px] z-20" />
+                                alt="fortune teller" className=" h-full  object-scale-down rounded-[7px] z-20" />
                         </div>
 
 
@@ -70,10 +79,11 @@ function App() {
                 </div>
                 <div className={'flex flex-row justify-center items-center pt-10'}>
 
-                    <button className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
+                    <button onClick={()=>setIsPopupOpen(true)} className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
                         {character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}
                     </button>
                 </div>
+                <div id={'spacer'} className={'w-5 h-5'}></div>
             </div>
         </>
     );
