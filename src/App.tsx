@@ -1,11 +1,11 @@
 
 
 import './App.css';
-import { createMagicBallGradient } from './functions/createMagicBallGradient.ts';
 import { useInterval } from './hooks/useInterval.ts';
 import React from 'react';
 import { characters } from './data/characters.ts';
 import { buildSrcFromChar } from './utils/buildSrcFromChar.ts';
+import { BallsOfLight } from './animations/BallsOfLight/BallsOfLight.tsx';
 
 function App() {
     const [bgColor, setBgColor] = React.useState(100);
@@ -52,8 +52,8 @@ const [character, setCharacter] = React.useState(characters[0]);
 
                     <div className={'relative'}>
                         <div id={'behind-fortune-teller-container'} className={'absolute p-8   w-full h-full  z-0'}>
-                            <div style={{ background: createMagicBallGradient(bgColor) }} className={'    w-full h-full z-0'}>
-
+                            <div   className={' overflow-y-hidden overflow-x-hidden    w-full h-full z-0'}>
+                                <BallsOfLight/>
                             </div>
                         </div>
                         <div className={'relative z-20'}>
