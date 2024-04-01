@@ -82,12 +82,15 @@ function App() {
                     </div>
 
                 </div>
-                <div className={'flex flex-row justify-center items-center pt-10'}>
+                <div className={'fixed bottom-16 flex flex-row justify-center items-center pt-10 w-screen'}>
+                    <div className={'w-[400px] flex flex-row justify-center items-center'}>
 
-                    <button onClick={() => setIsPopupOpen(true)}
-                            className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
-                        {character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}
-                    </button>
+
+                        <button onClick={() => setIsPopupOpen(true)}
+                                className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
+                            {character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}
+                        </button>
+                    </div>
                 </div>
                 <div id={'spacer'} className={'w-5 h-5'}></div>
             </div>
