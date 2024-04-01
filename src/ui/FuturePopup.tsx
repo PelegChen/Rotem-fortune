@@ -7,6 +7,7 @@ export const FuturePopup = ({
                                 open,
                             }:
                                 { setOpen: ((value: boolean) => void), open: boolean }) => {
+   const fortune =  fortunes[Math.floor(Math.random() * fortunes.length)] as string;
 
     return (
         <div>
@@ -14,12 +15,12 @@ export const FuturePopup = ({
                 <div
                     dir={'rtl'}
                     className={
-                        'flex  h-[50vh] w-[70vw] flex-col justify-between border-2 bg-white p-7 '
+                        'flex    w-[70vw] flex-col justify-between border-2 bg-white p-7 '
                     }
                 >
                     <div>
-                        <div className={'bg-white text-[2rem] text-black'}>
-                            {builtTextContent(fortunes[0].text)}
+                        <div className={'bg-white text-[2rem] text-black mb-6'}>
+                            {builtTextContent(fortune)}
 
                         </div>
                     </div>

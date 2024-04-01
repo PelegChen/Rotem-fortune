@@ -54,7 +54,7 @@ function App() {
                             backgroundColor: 'black',
                             color: 'white',
                         }} onChange={(e) => chooseCharacter(e.target.value)}>
-                            <option value={'choose'}> בחרי אחת אחרת</option>
+                            <option value={'choose'}> בחרי דמות אחרת</option>
                             {characters.map((char) => {
                                 return <option value={char.name} key={char.name}>{char.hebrew}</option>;
                             })}
