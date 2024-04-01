@@ -4,29 +4,35 @@ export const characters: Character[] = [
     {
         name: 'harry',
         hebrew: 'הארי',
-        file: 'harry.png'
+        file: 'harry.png',
+        isFemale: false,
     },
     {
         name: 'hermione',
         hebrew: 'הרמיוני',
         file: 'hermione.png'
+        ,
+        isFemale: true,
     },
     {
         name: 'ron',
         hebrew: 'רון',
-        file: 'ron.png'
+        file: 'ron.png',
+        isFemale: false,
     },
     {
         name: 'dumbledore',
         hebrew: 'דמבלדור',
-        file: 'dumbledore.png'
+        file: 'dumbledore.png',
+        isFemale: false,
     },
 
 
     {
         name: 'hagrid',
         hebrew: 'הגריד',
-        file: 'hagrid.png'
+        file: 'hagrid.png',
+        isFemale: false,
     },
 
 

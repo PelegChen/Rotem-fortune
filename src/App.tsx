@@ -1,13 +1,15 @@
-import teller from './assets/images/ft_1.png';
+
 
 import './App.css';
 import { createMagicBallGradient } from './functions/createMagicBallGradient.ts';
 import { useInterval } from './hooks/useInterval.ts';
 import React from 'react';
+import { characters } from './data/characters.ts';
+import { buildSrcFromChar } from './utils/buildSrcFromChar.ts';
 
 function App() {
     const [bgColor, setBgColor] = React.useState(100);
-
+const [character, setCharacter] = React.useState(characters[0]);
     useInterval(() => {
         if (bgColor >= 255) {
              setBgColor(0);
@@ -15,6 +17,12 @@ function App() {
         }
         setBgColor(bgColor +  5);
     }, 1000);
+    const chooseCharacter = (name: string) => {
+        const char = characters.find((char) => char.name === name);
+        if (char) {
+            setCharacter(char);
+        }
+    }
 
     return (
         <>
@@ -23,7 +31,7 @@ function App() {
                 <div id={'upper-text-container'} style={{ lineHeight: '105%' }}
                      className={'flex flex-row justify-center  items-center my-4  text-[2rem]'}>
                     <div className={'  flex justify-center items-center flex-row '} dir={'rtl'}>
-                        מגדת העתידות מגדלנה
+                       <span> {character.hebrew} </span>
                     </div>
 
                 </div>
@@ -32,9 +40,12 @@ function App() {
                     <select defaultValue={'בחרי אחרת'} style={{
                         backgroundColor: 'black',
                         color: 'white',
-                    }}>
+                    }} onChange={(e)=>chooseCharacter(e.target.value)}>
                         <option> בחרי אחת אחרת</option>
-                        <option>מתילדה</option>
+                        {characters.map((char) => {
+                            return <option value={char.name} key={char.name}>{char.hebrew}</option>;
+                        })}
+
                     </select>
                 </div>
                 <div id={'image-container'} className={'relative max-h-screen flex flex-row justify-center  '}>
@@ -46,7 +57,10 @@ function App() {
                             </div>
                         </div>
                         <div className={'relative z-20'}>
-                            <img src={teller} style={{ boxShadow: '0 0 20px 4px white' }}
+                            <img
+                                // src={teller}
+                                src={buildSrcFromChar(character)}
+                                 style={{ boxShadow: '0 0 20px 4px white' }}
                                  alt="fortune teller" className=" h-full  object-scale-down rounded-[70px] z-20" />
                         </div>
 
@@ -57,7 +71,7 @@ function App() {
                 <div className={'flex flex-row justify-center items-center pt-10'}>
 
                 <button className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
-                    גלי לי את העתיד
+                    {character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}
                 </button>
                 </div>
             </div>
