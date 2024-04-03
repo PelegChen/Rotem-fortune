@@ -41,7 +41,7 @@ function App() {
     };
     return (
         <>
-            <div className={'w-screen h-screen overflow-y-hidden bg-black flex flex-col justify-between  text-white font-bold'}>
+            <div className={'w-screen h-screen overflow-y-hidden overflow-x-hidden bg-black flex flex-col justify-between  text-white font-bold'}>
                 <FuturePopup setOpen={setIsPopupOpen} open={isPopupOpen} character={character} />
                 <div>
 
