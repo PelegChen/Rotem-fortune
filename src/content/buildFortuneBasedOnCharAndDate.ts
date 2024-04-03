@@ -1,7 +1,7 @@
 import { Character } from '../models/character.ts';
 import { fortunes } from '../data/fortunes.ts';
 import { basicHashToInt, veryBasicHash } from '../utils/hashingTools.ts';
-import { describe, expect, it } from 'vitest';
+
 import { characters } from '../data/characters.ts';
 
 const getHashFromCharAndDate = (character: Character, date: Date): number => {
@@ -19,9 +19,12 @@ export const buildFortuneBasedOnCharAndDate = (character: Character, date: Date)
 
 };
 
+
 // @ts-expect-error the vitest exists
 if (import.meta.vitest) {
-    describe('buildFortuneBasedOnCharAndDate', () => {
+    // @ts-expect-error the vitest exists
+
+    const { it, expect, describe } = import.meta.vitest;describe('buildFortuneBasedOnCharAndDate', () => {
         it('should return a fortune', () => {
             const character = characters[0];
             const date = new Date();
