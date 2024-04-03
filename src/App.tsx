@@ -7,10 +7,15 @@ import { FuturePopup } from './ui/FuturePopup.tsx';
 import { useWindowSize } from './hooks/useWindowResize.ts';
 import { getImageSource } from './images/getImageSource.ts';
 
+const lsKey = 'rotem-character'
+
+// @ts-expect-error if no ls found wont be an error
+const ininitalCharachter =  localStorage.getItem(lsKey) && JSON.parse(localStorage.getItem(lsKey))  || characters[0];
+
 function App() {
     const [bgColor, setBgColor] = React.useState(100);
-    const [character, setCharacter] = React.useState(characters[0]);
-    const [isPopupOpen, setIsPopupOpen] = React.useState(true);
+    const [character, setCharacter] = React.useState(ininitalCharachter);
+    const [isPopupOpen, setIsPopupOpen] = React.useState(false);
     const [width] = useWindowSize();
     const selectRef = React.useRef<HTMLSelectElement>(null);
 
@@ -28,16 +33,16 @@ function App() {
 
         if (char) {
             setCharacter(char);
+            localStorage.setItem(lsKey, JSON.stringify(char));
         }
         if (selectRef.current) {
             selectRef.current.value = 'choose';
         }
     };
-
     return (
         <>
             <div className={'w-screen h-screen overflow-y-hidden bg-black flex flex-col justify-between  text-white font-bold'}>
-                <FuturePopup setOpen={setIsPopupOpen} open={isPopupOpen} />
+                <FuturePopup setOpen={setIsPopupOpen} open={isPopupOpen} character={character} />
                 <div>
 
 
@@ -89,7 +94,7 @@ function App() {
                         <button onClick={() => setIsPopupOpen(true)}
                                 className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
                             {/*{character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}*/}
-                           עצה מכדור הקסם
+                            עצה מכדור הקסם
                         </button>
                     </div>
                 </div>
