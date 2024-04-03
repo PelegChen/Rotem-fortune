@@ -7,10 +7,15 @@ import { FuturePopup } from './ui/FuturePopup.tsx';
 import { useWindowSize } from './hooks/useWindowResize.ts';
 import { getImageSource } from './images/getImageSource.ts';
 
+const lsKey = 'rotem-character'
+
+// @ts-expect-error if no ls found wont be an error
+const ininitalCharachter =  localStorage.getItem(lsKey) && JSON.parse(localStorage.getItem(lsKey))  || characters[0];
+
 function App() {
     const [bgColor, setBgColor] = React.useState(100);
-    const [character, setCharacter] = React.useState(characters[0]);
-    const [isPopupOpen, setIsPopupOpen] = React.useState(true);
+    const [character, setCharacter] = React.useState(ininitalCharachter);
+    const [isPopupOpen, setIsPopupOpen] = React.useState(false);
     const [width] = useWindowSize();
     const selectRef = React.useRef<HTMLSelectElement>(null);
 
@@ -28,6 +33,7 @@ function App() {
 
         if (char) {
             setCharacter(char);
+            localStorage.setItem(lsKey, JSON.stringify(char));
         }
         if (selectRef.current) {
             selectRef.current.value = 'choose';
