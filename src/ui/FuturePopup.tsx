@@ -1,14 +1,17 @@
 import { DialogModal } from './dialog/DialogModal.tsx';
-import { fortunes } from '../data/fortunes.ts';
+
 import { builtTextContent } from '../content/builtTextContent.tsx';
+import { buildFortuneBasedOnCharAndDate } from '../content/buildFortuneBasedOnCharAndDate.ts';
+import { Character } from '../models/character.ts';
 
 export const FuturePopup = ({
                                 setOpen,
                                 open,
+    character
                             }:
-                                { setOpen: ((value: boolean) => void), open: boolean }) => {
-   const fortune =  fortunes[Math.floor(Math.random() * fortunes.length)] as string;
+                                { setOpen: ((value: boolean) => void),  open: boolean, character : Character }) => {
 
+    const fortune = buildFortuneBasedOnCharAndDate(character, new Date());
     return (
         <div>
             <DialogModal setShowDialog={setOpen} showDialog={open}>

@@ -33,11 +33,10 @@ function App() {
             selectRef.current.value = 'choose';
         }
     };
-
     return (
         <>
             <div className={'w-screen h-screen overflow-y-hidden bg-black flex flex-col justify-between  text-white font-bold'}>
-                <FuturePopup setOpen={setIsPopupOpen} open={isPopupOpen} />
+                <FuturePopup setOpen={setIsPopupOpen} open={isPopupOpen} character={character} />
                 <div>
 
 
@@ -89,7 +88,7 @@ function App() {
                         <button onClick={() => setIsPopupOpen(true)}
                                 className={'bg-violet-800 text-[2rem] flex justify-center items-center w-3/4 rounded-lg p-4'}>
                             {/*{character.isFemale ? 'גלי לי את העתיד' : 'גלה לי את העתיד'}*/}
-                           עצה מכדור הקסם
+                            עצה מכדור הקסם
                         </button>
                     </div>
                 </div>
