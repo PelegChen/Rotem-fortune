@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Rotem Fortune" />
     <link rel="canonical" href="https://pelegchen.github.io/Rotem-fortune/" />
-  <link rel="manifest" href="/Rotem-fortune/manifest.webmanifest">
+    <link rel="manifest" href="/Rotem-fortune/manifest.webmanifest">
 
     <title>Rotem Fortune</title>
 </head>
@@ -17,11 +17,16 @@
 <div id="root"></div>
 <script>
     if (navigator.serviceWorker) {
-        navigator.serviceWorker.register (
-            '/Rotem-fortune/sw.js',
-            {scope: '/Rotem-fortune/'}
-        )
+        navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
     }
+    addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        const promptEvent = event;
+        const confirm = window.confirm('האם את רוצה להתקין את האפליקציה?');
+        if (!confirm) return;
+        promptEvent.prompt();
+
+    });
 </script>
 <script type="module" src="/src/main.tsx"></script>
 </body>
