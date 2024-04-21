@@ -1,0 +1,17 @@
+{
+  "name": "Rotem Fortune",
+  "short_name": "Rotem",
+  "description": "Forturne teller for Rotem",
+  "scope": "/Rotem-fortune/",
+  "start_url": "/Rotem-fortune/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone",
+  "icons": [
+      {
+        "src": "/Rotem-fortune/images/ft_1.png",
+        "type": "image/png",
+        "sizes": "700x700"
+      }
+  ]
+}
