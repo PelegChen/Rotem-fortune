@@ -60,17 +60,25 @@
 
 
     customPrompt.innerHTML = `<div class="install-app-prompt"><div  dir="rtl" class="inner-prompt">
-<span>האם את רוצה להתקין את האפליקציה?</span><div class="buttons-container"><button id="approve-install-btn"> אישור</button>
-<button  id="disapprove-install-btn"> ביטול</button>
+<span>התקנת כאפליקציה</span><div class="buttons-container"><button id="approve-install-btn"> אישור</button>
+<button  id="disapprove-install-btn"> רק בדפדפן</button>
 </div>
 
         </div>
         </div>`;
 
     let installPrompt = null;
+
     const appendToBody = () => {
+        if (window.location.hash !== "#install"){
+            return;
+        }
+        if  (localStorage.getItem("install-prompt") === "disapproved") {
+            return;
+        }
         document.body.appendChild(customPrompt);
         document.querySelector("#disapprove-install-btn").addEventListener("click", () => {
+            localStorage.setItem("install-prompt", "disapproved")
             customPrompt.setAttribute("hidden", "");
         });
         document.querySelector("#approve-install-btn").addEventListener ("click", async () => {
