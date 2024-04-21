@@ -73,6 +73,16 @@
         document.querySelector("#disapprove-install-btn").addEventListener("click", () => {
             customPrompt.setAttribute("hidden", "");
         });
+        document.querySelector("#approve-install-btn").addEventListener ("click", async () => {
+            if (!installPrompt) {
+                return;
+            }
+            const result = await installPrompt.prompt();
+            console.log(`Install prompt was: ${result.outcome}`);
+            installPrompt = null;
+
+            customPrompt.setAttribute("hidden", "");
+        });
 
     }
 
@@ -83,16 +93,7 @@
         appendToBody();
     });
 
-    document.querySelector("#approve-install-btn").addEventListener ("click", async () => {
-        if (!installPrompt) {
-            return;
-        }
-        const result = await installPrompt.prompt();
-        console.log(`Install prompt was: ${result.outcome}`);
-        installPrompt = null;
 
-        customPrompt.setAttribute("hidden", "");
-    });
 
 
 </script>
