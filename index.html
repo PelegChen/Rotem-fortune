@@ -11,7 +11,44 @@
     <title>Rotem Fortune</title>
 </head>
 <style>
+    .install-app-prompt {
+        position: absolute;
+        top: 10vh;
+        width: 100vw;
+        z-index: 1000;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
 
+        .inner-prompt {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            width: 240px;
+            height: 140px;
+            padding: 15px 30px;
+            border-radius: 10px;
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-top: 20px;
+            button {
+                padding: 5px 10px;
+                border-radius: 5px;
+                border: none;
+                background-color: #f0f0f0;
+                cursor: pointer;
+            }
+            button#approve-install-btn {
+                background-color: #8b6ddf;
+                color: white;
+            }
+        }
+
+    }
 </style>
 <body>
 <div id="root"></div>
@@ -19,6 +56,18 @@
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
     }
+    const installPrompt = document.createElement('div');
+    installPrompt.innerHTML = `<div class="install-app-prompt"><div  dir="rtl" class="inner-prompt">
+<span>האם את רוצה להתקין את האפליקציה?</span><div class="buttons-container"><button id="approve-install-btn"> אישור</button>
+<button  id="disapprove-install-btn"> ביטול</button>
+</div>
+
+        </div>
+        </div>`;
+    setTimeout(() => {
+        document.body.appendChild(installPrompt);
+    }, 0);
+
 
     // addEventListener('beforeinstallprompt', (event) => {
     //     event.preventDefault();
