@@ -15,6 +15,14 @@
 </style>
 <body>
 <div id="root"></div>
+<script>
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register (
+            '/Rotem-fortune/sw.js',
+            {scope: '/Rotem-fortune/'}
+        )
+    }
+</script>
 <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
