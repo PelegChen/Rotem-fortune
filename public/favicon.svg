@@ -1,7 +1,7 @@
 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M34.6301 18.215C34.6301 27.5873 27.0324 35.1851 17.6602 35.1851C8.28805 35.1851 0.690368 27.5873 0.690368 18.215C0.690368 8.84269 8.28805 1.24493 17.6602 1.24493C27.0324 1.24493 34.6301 8.84269 34.6301 18.215Z" fill="url(#paint0_radial_606_25234)" stroke="url(#paint1_linear_606_25234)" stroke-width="0.771362"/>
     <g filter="url(#filter0_i_606_25234)">
-        <ellipse cx="17.6604" cy="18.2142" rx="11.7239" ry="11.7241" fill="#F8F7FA"/>
+        <ellipse cx="17.6604" cy="18.2142" rx="11.7239" ry="11.7241" fill="#c4abfd"/>
     </g>     <defs>
         <filter id="filter0_i_606_25234" x="5.93652" y="6.49011" width="24.2191" height="25.7622" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix"/>
@@ -14,12 +14,12 @@
             <feBlend mode="normal" in2="shape" result="effect1_innerShadow_606_25234"/>
         </filter>
         <radialGradient id="paint0_radial_606_25234" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(23.3604 35.5708) rotate(74.4382) scale(20.7766 20.7764)">
-            <stop stop-color="#F7F0FF"/>
+            <stop stop-color="#5b21b6"/>
             <stop offset="1" stop-color="#FFFEFF"/>
         </radialGradient>
         <linearGradient id="paint1_linear_606_25234" x1="7.69946" y1="3.36279" x2="26.2411" y2="38.5078" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#612CD2"/>
-            <stop offset="1" stop-color="#687DE7"/>
+            <stop stop-color="#5b21b6"/>
+            <stop offset="1" stop-color="#5b21b6"/>
         </linearGradient>
     </defs>
 </svg>
