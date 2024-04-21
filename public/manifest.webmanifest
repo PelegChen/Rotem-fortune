@@ -1,11 +1,11 @@
 {
-  "name": "Rotem Fortune",
-  "short_name": "Rotem",
+  "name": "עתידות רותם",
+  "short_name": "עתידות רותם",
   "description": "Forturne teller for Rotem",
   "scope": "/Rotem-fortune/",
   "start_url": "/Rotem-fortune/",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#5b21b6",
+  "theme_color": "#5b21b6",
   "display": "standalone",
   "icons": [
       {
