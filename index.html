@@ -56,27 +56,45 @@
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
     }
-    const installPrompt = document.createElement('div');
-    installPrompt.innerHTML = `<div class="install-app-prompt"><div  dir="rtl" class="inner-prompt">
+    const customPrompt = document.createElement('div');
+
+
+    customPrompt.innerHTML = `<div class="install-app-prompt"><div  dir="rtl" class="inner-prompt">
 <span>האם את רוצה להתקין את האפליקציה?</span><div class="buttons-container"><button id="approve-install-btn"> אישור</button>
 <button  id="disapprove-install-btn"> ביטול</button>
 </div>
 
         </div>
         </div>`;
-    setTimeout(() => {
-        document.body.appendChild(installPrompt);
-    }, 0);
+
+    let installPrompt = null;
+    const appendToBody = () => {
+        document.body.appendChild(customPrompt);
+        document.querySelector("#disapprove-install-btn").addEventListener("click", () => {
+            customPrompt.setAttribute("hidden", "");
+        });
+
+    }
 
 
-    // addEventListener('beforeinstallprompt', (event) => {
-    //     event.preventDefault();
-    //     const promptEvent = event;
-    //     const confirm = window.confirm('האם את רוצה להתקין את האפליקציה?');
-    //     if (!confirm) return;
-    //     promptEvent.prompt();
-    //
-    // });
+    window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        installPrompt = event;
+        appendToBody();
+    });
+
+    document.querySelector("#approve-install-btn").addEventListener ("click", async () => {
+        if (!installPrompt) {
+            return;
+        }
+        const result = await installPrompt.prompt();
+        console.log(`Install prompt was: ${result.outcome}`);
+        installPrompt = null;
+
+        customPrompt.setAttribute("hidden", "");
+    });
+
+
 </script>
 <script type="module" src="/src/main.tsx"></script>
 </body>
