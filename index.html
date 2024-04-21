@@ -19,14 +19,15 @@
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
     }
-    addEventListener('beforeinstallprompt', (event) => {
-        event.preventDefault();
-        const promptEvent = event;
-        const confirm = window.confirm('האם את רוצה להתקין את האפליקציה?');
-        if (!confirm) return;
-        promptEvent.prompt();
 
-    });
+    // addEventListener('beforeinstallprompt', (event) => {
+    //     event.preventDefault();
+    //     const promptEvent = event;
+    //     const confirm = window.confirm('האם את רוצה להתקין את האפליקציה?');
+    //     if (!confirm) return;
+    //     promptEvent.prompt();
+    //
+    // });
 </script>
 <script type="module" src="/src/main.tsx"></script>
 </body>
