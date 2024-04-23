@@ -12,6 +12,7 @@ const VERSION = 'version_00';
 
 // The files to make available for offline use. make sure to add
 // others to this list
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const URLS = [`${GHPATH}/`, `${GHPATH}/index.html`, // `${GHPATH}/css/styles.css`,
     // `${GHPATH}/js/app.js`
 ];
@@ -21,6 +22,7 @@ self.addEventListener('activate', function(event) {
     console.log('[Service Worker] Activating Service Worker ....', event);
     event.waitUntil(caches.keys()
         .then(function(keyList) {
+            console.log('keyList', keyList)
             return Promise.all(keyList.map(function(key) {
                 if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
                     console.log('[Service Worker] Removing old cache.', key);
@@ -30,8 +32,8 @@ self.addEventListener('activate', function(event) {
         }));
     return self.clients.claim();
 });
-self.addEventListener('install', event => {
-    console.log('Service worker installed', event.type);
-    self.skipWaiting().then(r => console.log('skipWaiting', r));
+self.addEventListener('install',  () => {
+
+    self.skipWaiting().then( );
 });
 
