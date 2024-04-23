@@ -32,5 +32,6 @@ self.addEventListener('activate', function(event) {
 });
 self.addEventListener('install', event => {
     console.log('Service worker installed', event.type);
+    self.skipWaiting().then(r => console.log('skipWaiting', r));
 });
 
