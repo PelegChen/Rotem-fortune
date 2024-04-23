@@ -32,8 +32,26 @@ self.addEventListener('activate', function(event) {
         }));
     return self.clients.claim();
 });
-self.addEventListener('install',  () => {
 
+self.addEventListener('install',  () => {
     self.skipWaiting().then( );
 });
 
+self.addEventListener('fetch', (e) => {
+    e.respondWith(
+        caches.match(e.request).then((r) => {
+            console.log('[Service Worker] Fetching resource: '+e.request.url);
+            if (r){
+                console.log('[Service Worker] Loading resource from cache: '+e.request.url)
+            return r
+            }
+            return fetch(e.request).then((response) => {
+                return caches.open(CACHE_STATIC_NAME).then((cache) => {
+                    console.log('[Service Worker] Caching new resource: '+e.request.url);
+                    cache.put(e.request, response.clone());
+                    return response;
+                });
+            });
+        })
+    );
+});
