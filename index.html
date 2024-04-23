@@ -30,11 +30,13 @@
             padding: 15px 30px;
             border-radius: 10px;
         }
+
         .buttons-container {
             display: flex;
             flex-direction: row;
             justify-content: space-around;
             margin-top: 20px;
+
             button {
                 padding: 5px 10px;
                 border-radius: 5px;
@@ -42,6 +44,7 @@
                 background-color: #f0f0f0;
                 cursor: pointer;
             }
+
             button#approve-install-btn {
                 background-color: #8b6ddf;
                 color: white;
@@ -54,8 +57,16 @@
 <div id="root"></div>
 <script>
     if (navigator.serviceWorker) {
-        navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
+        if (location.hostname === 'localhost') {
+            navigator.serviceWorker.register('/sw.js');
+    console.log('Service worker registered')
+
+        } else {
+            navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
+
+        }
     }
+
     const customPrompt = document.createElement('div');
 
 
@@ -70,18 +81,18 @@
     let installPrompt = null;
 
     const appendToBody = () => {
-        if (window.location.hash !== "#install"){
+        if (window.location.hash !== '#install') {
             return;
         }
-        if  (localStorage.getItem("install-prompt") === "disapproved") {
+        if (localStorage.getItem('install-prompt') === 'disapproved') {
             return;
         }
         document.body.appendChild(customPrompt);
-        document.querySelector("#disapprove-install-btn").addEventListener("click", () => {
-            localStorage.setItem("install-prompt", "disapproved")
-            customPrompt.setAttribute("hidden", "");
+        document.querySelector('#disapprove-install-btn').addEventListener('click', () => {
+            localStorage.setItem('install-prompt', 'disapproved');
+            customPrompt.setAttribute('hidden', '');
         });
-        document.querySelector("#approve-install-btn").addEventListener ("click", async () => {
+        document.querySelector('#approve-install-btn').addEventListener('click', async () => {
             if (!installPrompt) {
                 return;
             }
@@ -89,19 +100,17 @@
             console.log(`Install prompt was: ${result.outcome}`);
             installPrompt = null;
 
-            customPrompt.setAttribute("hidden", "");
+            customPrompt.setAttribute('hidden', '');
         });
 
-    }
+    };
 
 
-    window.addEventListener("beforeinstallprompt", (event) => {
+    window.addEventListener('beforeinstallprompt', (event) => {
         event.preventDefault();
         installPrompt = event;
         appendToBody();
     });
-
-
 
 
 </script>

@@ -19,3 +19,9 @@ var URLS = [
     // `${GHPATH}/css/styles.css`,
     // `${GHPATH}/js/app.js`
 ]
+self.addEventListener("install", event => {
+    console.log("Service worker installed");
+});
+self.addEventListener("activate", event => {
+    console.log("Service worker activated");
+});
