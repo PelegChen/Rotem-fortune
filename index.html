@@ -56,14 +56,24 @@
 <body>
 <div id="root"></div>
 <script>
-    console.log(`import.meta.env.VITE_HTML_BASE_URL`)
+
     if (navigator.serviceWorker) {
+        const siteName =   `%VITE_SITE_NAME%`
+
         if (location.hostname === 'localhost') {
             navigator.serviceWorker.register('/sw.js');
-    console.log('Service worker registered')
+            console.log('Service worker registered')
 
         } else {
             navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
+
+        }
+        if (siteName !== "RotemForturne") {
+            // this is for development purposes only when accessing localhost://5173
+          console.log('site name is not RotemForturne')
+            navigator.serviceWorker.ready.then((registration) => {
+                registration.unregister();
+            });
 
         }
     }

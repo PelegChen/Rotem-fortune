@@ -44,13 +44,17 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
         caches.match(e.request).then((r) => {
             if (r){
-                console.log('From cache: '+e.request.url)
+             //   console.log('From cache: '+e.request.url)
             return r
             }
             return fetch(e.request).then((response) => {
                 return caches.open(CACHE_STATIC_NAME).then((cache) => {
-                      console.log('Caching resource: '+e.request.url);
-                    cache.put(e.request, response.clone());
+                    if (!e.request.url.includes("@")) {
+                        // don't cache in development
+                        console.log('Caching resource: '+e.request.url);
+                        cache.put(e.request, response.clone());
+                    }
+
                     return response;
                 });
             });
