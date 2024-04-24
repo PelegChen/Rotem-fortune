@@ -18,8 +18,11 @@ const URLS = [`${GHPATH}/`, `${GHPATH}/index.html`, // `${GHPATH}/css/styles.css
 ];
 const CACHE_STATIC_NAME = APP_PREFIX + VERSION;
 const CACHE_DYNAMIC_NAME = APP_PREFIX + 'dynamic';
+
+
 self.addEventListener('activate', function(event) {
     console.log('[Service Worker] Activating Service Worker ....', event);
+    console.log(globalThis);
     event.waitUntil(caches.keys()
         .then(function(keyList) {
             console.log('keyList', keyList)
@@ -34,20 +37,19 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('install',  () => {
-    self.skipWaiting().then( );
+    self.skipWaiting().then(r=>console.log(r));
 });
 
 self.addEventListener('fetch', (e) => {
     e.respondWith(
         caches.match(e.request).then((r) => {
-            console.log('[Service Worker] Fetching resource: '+e.request.url);
             if (r){
-                console.log('[Service Worker] Loading resource from cache: '+e.request.url)
+                console.log('From cache: '+e.request.url)
             return r
             }
             return fetch(e.request).then((response) => {
                 return caches.open(CACHE_STATIC_NAME).then((cache) => {
-                    console.log('[Service Worker] Caching new resource: '+e.request.url);
+                      console.log('Caching resource: '+e.request.url);
                     cache.put(e.request, response.clone());
                     return response;
                 });
