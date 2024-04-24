@@ -62,7 +62,7 @@
 
         if (location.hostname === 'localhost') {
             navigator.serviceWorker.register('/sw.js');
-            console.log('Service worker registered')
+            console.log( `Service worker registered (Rotem's Forturne)`)
 
         } else {
             navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
