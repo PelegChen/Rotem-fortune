@@ -1,5 +1,7 @@
 // Change this to your repository name
-const GHPATH = '/Rotem-fortune';
+import { ServiceWorkerConstants } from './sw-utils.js';
+
+const GHPATH = ServiceWorkerConstants.GHPATH;
 
 // Choose a different app prefix name
 const APP_PREFIX = 'rtmfort_';
