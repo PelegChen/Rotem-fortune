@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line no-undef
 importScripts('./sw-utils.js');
 
@@ -7,12 +6,12 @@ const VERSION = 'version_00';
 
 // eslint-disable-next-line no-undef
 class SwConstants extends ServiceWorkerConstants {}
+
 // eslint-disable-next-line no-undef
-class Debug extends SwDebug {}
+class Debug extends ServiceWorkerDebug {}
 
 Debug.isDebugMode = !DEBUG_MODE;
 SwConstants.VERSION = VERSION;
-
 
 
 const clearCaches = async () => {
@@ -33,7 +32,8 @@ self.addEventListener('activate', function(activationEvent) {
         .then(function(keyList) {
             Debug.log('keyList', keyList);
             return Promise.all(keyList.map(function(key) {
-                if (key !== SwConstants.CACHE_NAME && key !== SwConstants.CACHE_CORE_NAME) {
+                if (key !== SwConstants.CACHE_NAME && key !==
+                    SwConstants.CACHE_CORE_NAME) {
                     Debug.log('[Service Worker] Removing old cache.', key);
                     return caches.delete(key);
                 }
@@ -51,10 +51,7 @@ self.addEventListener('install', () => {
 self.addEventListener('fetch', (fetchEvent) => {
     fetchEvent.respondWith(caches.match(fetchEvent.request).then((fetchResponse) => {
         if (fetchResponse) {
-            if (fetchEvent.request.url.includes('sw')) {
-
-                Debug.log('From cache: ' + fetchEvent.request.url);
-            }
+            Debug.debounceLog('From cache: ' + fetchEvent.request.url);
             return fetchResponse;
         }
         return fetch(fetchEvent.request).then((response) => {
