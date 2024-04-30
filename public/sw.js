@@ -7,7 +7,7 @@ const DEBUG_MODE = true;
 
 const swConstants =
     // eslint-disable-next-line no-undef
-    new ServiceWorkerConstants ({version: 'version_01'  })
+    new ServiceWorkerConstants ({version: 'version_03'  })
 
 // eslint-disable-next-line no-undef
 class Debug extends ServiceWorkerDebug {}
@@ -16,8 +16,7 @@ Debug.isDebugMode = !DEBUG_MODE;
 
 
 
-console.log(' swConstants.CACHE_NAME' )
-console.log( swConstants.CACHE_NAME )
+
 
 const clearCaches = async () => {
     return caches.keys().then(function(keys) {
@@ -31,15 +30,15 @@ const clearCaches = async () => {
 };
 
 self.addEventListener('activate', function(activationEvent) {
-    Debug.log(`[Service Worker] Activating Service Worker ${swConstants.swName} ....`);
+    Debug.log(`[Service Worker] Activating Service Worker version ${swConstants.version} ....`);
 
     activationEvent.waitUntil(caches.keys()
         .then(function(keyList) {
-            Debug.log('keyList', keyList);
+            Debug.log('[Service Worker] existing keyList', keyList);
             return Promise.all(keyList.map(function(key) {
                 if (key !== swConstants.CACHE_NAME && key !==
                     swConstants.CACHE_CORE_NAME) {
-                    Debug.log('[Service Worker] Removing old cache.', key);
+                    Debug.log('[Service Worker] Removing old cache :', key);
                     return caches.delete(key);
                 }
             }));
@@ -50,20 +49,20 @@ self.addEventListener('activate', function(activationEvent) {
 });
 
 self.addEventListener('install', () => {
-    self.skipWaiting().then(() => Debug.log('installing' ));
+    self.skipWaiting().then(() => Debug.log(` [Service Worker] Installing Service Worker ${swConstants.swName}`   ));
 });
 
 self.addEventListener('fetch', (fetchEvent) => {
     fetchEvent.respondWith(caches.match(fetchEvent.request).then((fetchResponse) => {
         if (fetchResponse) {
-            Debug.debounceLog('From cache: ' + fetchEvent.request.url);
+            Debug.debounceLog('[Service Worker] From cache: ' + fetchEvent.request.url);
             return fetchResponse;
         }
         return fetch(fetchEvent.request).then((response) => {
             return caches.open(swConstants.CACHE_NAME).then((cache) => {
                 if (!fetchEvent.request.url.includes('@')) {
                     // don't cache in development
-                    Debug.log('Caching resource: ' + fetchEvent.request.url);
+                    Debug.log('[Service Worker] Caching resource: ' + fetchEvent.request.url);
                     cache.put(fetchEvent.request, response.clone());
                 }
 
