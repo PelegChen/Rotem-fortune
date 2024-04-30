@@ -20,22 +20,27 @@ const clearCaches = async () => {
         return key.indexOf(swConstants.CACHE_NAME) !== 0 && key !==
             swConstants.CACHE_CORE_NAME;
     });
-    let letCachesFound = 0
+    let letCachesFound = 0;
     await Promise.all(allKeysToDelete.map((key) => {
         Debug.log('Removing old cache: ' + key);
-        letCachesFound++
+        letCachesFound++;
         return caches.delete(key);
     }));
     if (letCachesFound === 0) {
         Debug.log('No old caches found');
     } else {
-        Debug.log( `${letCachesFound} Old caches cleared` );
+        Debug.log(`${letCachesFound} Old caches cleared`);
 
     }
 };
 
 
-self.addEventListener('activate', async (activationEvent) => {
+self.addEventListener('activate', /**
+ *
+ * @param { Event & {waitUntil : (Promise) =>Promise  }} activationEvent
+ * @return {Promise<void>}
+ */
+async (activationEvent) => {
     Debug.log(`[Service Worker] Activating Service Worker version ${swConstants.version} ....`);
     await activationEvent.waitUntil(clearCaches());
     return self.clients.claim();
