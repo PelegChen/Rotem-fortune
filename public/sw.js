@@ -2,7 +2,7 @@
 importScripts('./sw-utils.js');
 
 const DEBUG_MODE = true;
-const VERSION = 'version_00';
+const VERSION = 'version_01';
 
 // eslint-disable-next-line no-undef
 class SwConstants extends ServiceWorkerConstants {}
