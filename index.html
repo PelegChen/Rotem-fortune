@@ -55,13 +55,13 @@
 </style>
 <body>
 <div id="root"></div>
-<script>
+<script type="module">
 
     if (navigator.serviceWorker) {
         const siteName =   `%VITE_SITE_NAME%`
 
         if (location.hostname === 'localhost') {
-            navigator.serviceWorker.register('/sw.js', {type: 'module', });
+            navigator.serviceWorker.register('/sw.js' );
             console.log( `Service worker registered (Rotem's Forturne)`)
 
         } else {
