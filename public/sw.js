@@ -16,13 +16,25 @@ const VERSION = 'version_00';
 const URLS = [`${GHPATH}/`, `${GHPATH}/index.html`,
 ];
 const CACHE_NAME = APP_PREFIX + VERSION;
-const CACHE_CORE_NAME = APP_PREFIX + 'core' + VERSION; // core files of the app
+const CACHE_CORE_NAME = APP_PREFIX + 'core'  ; // core files of the app no to change
 
+class Debug {
+    static ConsoleOff = false
+    static isLoggingToConsole() {
+        return  self.location.hostname === 'localhost'  && !Debug.ConsoleOff;
+    }
+    static log(...args) {
+        if (!Debug.isLoggingToConsole()){
+            return;
+        }
+        console.log(...args);
+    }
+}
 
 const clearCaches = async () => {
     return caches.keys().then(function(keys) {
         return Promise.all(keys.filter(function(key) {
-                return key.indexOf(VERSION) !== 0;
+                return key.indexOf(CACHE_NAME) !== 0;
             }).map(function(key) {
                 console.log('Removing old cache: '+key);
                 return caches.delete(key);
@@ -31,15 +43,15 @@ const clearCaches = async () => {
     })
 }
 
-self.addEventListener('activate', function(event) {
-    console.log('[Service Worker] Activating Service Worker ....', event);
+self.addEventListener('activate', function(activationEvent) {
+    Debug.log('[Service Worker] Activating Service Worker ....' );
 
-    event.waitUntil(caches.keys()
+    activationEvent.waitUntil(caches.keys()
         .then(function(keyList) {
-            console.log('keyList', keyList)
+            Debug.log('keyList', keyList)
             return Promise.all(keyList.map(function(key) {
                 if (key !== CACHE_NAME && key !== CACHE_CORE_NAME) {
-                    console.log('[Service Worker] Removing old cache.', key);
+                    Debug.log('[Service Worker] Removing old cache.', key);
                     return caches.delete(key);
                 }
             }));
@@ -50,22 +62,22 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('install',  () => {
-    self.skipWaiting().then(r=>console.log(r));
+    self.skipWaiting().then(r=>Debug.log("installing",r));
 });
 
-self.addEventListener('fetch', (e) => {
-    e.respondWith(
-        caches.match(e.request).then((r) => {
-            if (r){
+self.addEventListener('fetch', (fetchEvent) => {
+    fetchEvent.respondWith(
+        caches.match(fetchEvent.request).then((fetchResponse) => {
+            if (fetchResponse){
              //   console.log('From cache: '+e.request.url)
-            return r
+            return fetchResponse
             }
-            return fetch(e.request).then((response) => {
+            return fetch(fetchEvent.request).then((response) => {
                 return caches.open(CACHE_NAME).then((cache) => {
-                    if (!e.request.url.includes("@")) {
+                    if (!fetchEvent.request.url.includes("@")) {
                         // don't cache in development
-                        console.log('Caching resource: '+e.request.url);
-                        cache.put(e.request, response.clone());
+                        Debug.log('Caching resource: ' + fetchEvent.request.url);
+                        cache.put(fetchEvent.request, response.clone());
                     }
 
                     return response;
