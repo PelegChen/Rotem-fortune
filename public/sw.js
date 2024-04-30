@@ -4,10 +4,8 @@ importScripts('./sw-utils.js');
 const DEBUG_MODE = true;
 
 
-
-const swConstants =
-    // eslint-disable-next-line no-undef
-    new ServiceWorkerConstants ({version: 'version_03'  })
+const swConstants = // eslint-disable-next-line no-undef
+    new ServiceWorkerConstants({ version: 'version_03' });
 
 // eslint-disable-next-line no-undef
 class Debug extends ServiceWorkerDebug {}
@@ -15,40 +13,36 @@ class Debug extends ServiceWorkerDebug {}
 Debug.isDebugMode = !DEBUG_MODE;
 
 
-
-
-
 const clearCaches = async () => {
-    return caches.keys().then(function(keys) {
-        return Promise.all(keys.filter(function(key) {
-            return key.indexOf(swConstants.CACHE_NAME) !== 0;
-        }).map(function(key) {
-            Debug.log('Removing old cache: ' + key);
-            return caches.delete(key);
-        }));
+    Debug.log('Checking and Clearing old caches...');
+    const keys = await caches.keys();
+    const allKeysToDelete = keys.filter(function(key) {
+        return key.indexOf(swConstants.CACHE_NAME) !== 0 && key !==
+            swConstants.CACHE_CORE_NAME;
     });
+    let letCachesFound = 0
+    await Promise.all(allKeysToDelete.map((key) => {
+        Debug.log('Removing old cache: ' + key);
+        letCachesFound++
+        return caches.delete(key);
+    }));
+    if (letCachesFound === 0) {
+        Debug.log('No old caches found');
+    } else {
+        Debug.log( `${letCachesFound} Old caches cleared` );
+
+    }
 };
 
-self.addEventListener('activate',   async(activationEvent)=> {
+
+self.addEventListener('activate', async (activationEvent) => {
     Debug.log(`[Service Worker] Activating Service Worker version ${swConstants.version} ....`);
-    activationEvent.waitUntil(caches.keys()
-        .then(function(keyList) {
-            Debug.log('[Service Worker] existing keyList', keyList);
-            return Promise.all(keyList.map(function(key) {
-                if (key !== swConstants.CACHE_NAME && key !==
-                    swConstants.CACHE_CORE_NAME) {
-                    Debug.log('[Service Worker] Removing old cache :', key);
-                    return caches.delete(key);
-                }
-            }));
-        }));
-    clearCaches().then(() => {
-        return self.clients.claim();
-    });
+    await activationEvent.waitUntil(clearCaches());
+    return self.clients.claim();
 });
 
-self.addEventListener('install',   async () => {
-    self.skipWaiting().then(() => Debug.log(` [Service Worker] Installing Service Worker ${swConstants.swName}`   ));
+self.addEventListener('install', async () => {
+    self.skipWaiting().then(() => Debug.log(` [Service Worker] Installing Service Worker ${swConstants.swName}`));
 });
 
 self.addEventListener('fetch', async (fetchEvent) => {
@@ -61,7 +55,8 @@ self.addEventListener('fetch', async (fetchEvent) => {
             return caches.open(swConstants.CACHE_NAME).then((cache) => {
                 if (!fetchEvent.request.url.includes('@')) {
                     // don't cache in development
-                    Debug.log('[Service Worker] Caching resource: ' + fetchEvent.request.url);
+                    Debug.log('[Service Worker] Caching resource: ' +
+                        fetchEvent.request.url);
                     cache.put(fetchEvent.request, response.clone());
                 }
 
