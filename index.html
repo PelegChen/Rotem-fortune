@@ -55,22 +55,22 @@
 </style>
 <body>
 <div id="root"></div>
-<script type="module">
+<script >
 
     if (navigator.serviceWorker) {
-        const siteName =   `%VITE_SITE_NAME%`
+        const siteName = `%VITE_SITE_NAME%`;
 
         if (location.hostname === 'localhost') {
-            navigator.serviceWorker.register('/sw.js' );
-            console.log( `Service worker registered (Rotem's Forturne)`)
+            navigator.serviceWorker.register('/sw.js');
+            console.log(`Service worker registered (Rotem's Forturne)`);
 
         } else {
-            navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/',type: 'module' });
+            navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
 
         }
-        if (siteName !== "RotemForturne") {
+        if (siteName !== 'RotemForturne') {
             // this is for development purposes only when accessing localhost://5173
-          console.log('site name is not RotemForturne')
+            console.log('site name is not RotemForturne');
             navigator.serviceWorker.ready.then((registration) => {
                 registration.unregister();
             });

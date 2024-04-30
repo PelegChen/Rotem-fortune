@@ -29,9 +29,8 @@ const clearCaches = async () => {
     });
 };
 
-self.addEventListener('activate', function(activationEvent) {
+self.addEventListener('activate',   (activationEvent)=> {
     Debug.log(`[Service Worker] Activating Service Worker version ${swConstants.version} ....`);
-
     activationEvent.waitUntil(caches.keys()
         .then(function(keyList) {
             Debug.log('[Service Worker] existing keyList', keyList);
@@ -48,7 +47,7 @@ self.addEventListener('activate', function(activationEvent) {
     });
 });
 
-self.addEventListener('install', () => {
+self.addEventListener('install',   () => {
     self.skipWaiting().then(() => Debug.log(` [Service Worker] Installing Service Worker ${swConstants.swName}`   ));
 });
 
