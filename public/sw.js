@@ -3,7 +3,6 @@ importScripts('./sw-utils.js');
 
 const DEBUG_MODE = true;
 
-
 const swConstants = // eslint-disable-next-line no-undef
     new ServiceWorkerConstants({ version: 'version_03' });
 
@@ -34,23 +33,29 @@ const clearCaches = async () => {
     }
 };
 
-
-self.addEventListener('activate', /**
- *
- * @param { Event & {waitUntil : (Promise) =>Promise  }} activationEvent
- * @return {Promise<void>}
- */
-async (activationEvent) => {
+/**
+* @param { Event & {waitUntil : (Promise) =>Promise  }} activationEvent
+* @return {Promise<void>}
+*/
+const activateEventHandler = async (activationEvent) => {
     Debug.log(`[Service Worker] Activating Service Worker version ${swConstants.version} ....`);
     await activationEvent.waitUntil(clearCaches());
     return self.clients.claim();
-});
-
-self.addEventListener('install', async () => {
-    self.skipWaiting().then(() => Debug.log(` [Service Worker] Installing Service Worker ${swConstants.swName}`));
-});
-
-self.addEventListener('fetch', async (fetchEvent) => {
+}
+/**
+ *
+ * @return {Promise<void>}
+ */
+const installEventHandler = async () => {
+    Debug.log(`[Service Worker] Installing Service Worker ${swConstants.swName}`);
+    return self.skipWaiting();
+}
+/**
+ *
+ * @param {FetchEvent} fetchEvent
+ * @return {Promise<FetchEvent>}
+ */
+const fetchEventHandler = async (fetchEvent) => {
     fetchEvent.respondWith(caches.match(fetchEvent.request).then((fetchResponse) => {
         if (fetchResponse) {
             Debug.debounceLog('[Service Worker] From cache: ' + fetchEvent.request.url);
@@ -70,4 +75,11 @@ self.addEventListener('fetch', async (fetchEvent) => {
             });
         });
     }));
-});
+}
+
+
+self.addEventListener('activate', activateEventHandler);
+
+self.addEventListener('install', installEventHandler);
+
+self.addEventListener('fetch',fetchEventHandler );
