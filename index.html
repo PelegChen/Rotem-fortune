@@ -61,7 +61,7 @@
         const siteName =   `%VITE_SITE_NAME%`
 
         if (location.hostname === 'localhost') {
-            navigator.serviceWorker.register('/sw.mjs', {type: 'module', });
+            navigator.serviceWorker.register('/sw.js', {type: 'module', });
             console.log( `Service worker registered (Rotem's Forturne)`)
 
         } else {

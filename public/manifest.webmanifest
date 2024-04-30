@@ -7,10 +7,7 @@
   "background_color": "#5b21b6",
   "theme_color": "#5b21b6",
   "display": "standalone",
-   "background": {
-      "service_worker": "sw.js",
-      "type": "module"
-    },
+
   "icons": [
       {
         "src": "/Rotem-fortune/ft_1.png",
