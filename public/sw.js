@@ -13,27 +13,40 @@ const VERSION = 'version_00';
 // The files to make available for offline use. make sure to add
 // others to this list
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const URLS = [`${GHPATH}/`, `${GHPATH}/index.html`, // `${GHPATH}/css/styles.css`,
-    // `${GHPATH}/js/app.js`
+const URLS = [`${GHPATH}/`, `${GHPATH}/index.html`,
 ];
-const CACHE_STATIC_NAME = APP_PREFIX + VERSION;
-const CACHE_DYNAMIC_NAME = APP_PREFIX + 'dynamic';
+const CACHE_NAME = APP_PREFIX + VERSION;
+const CACHE_CORE_NAME = APP_PREFIX + 'core' + VERSION; // core files of the app
 
+
+const clearCaches = async () => {
+    return caches.keys().then(function(keys) {
+        return Promise.all(keys.filter(function(key) {
+                return key.indexOf(VERSION) !== 0;
+            }).map(function(key) {
+                console.log('Removing old cache: '+key);
+                return caches.delete(key);
+            })
+        );
+    })
+}
 
 self.addEventListener('activate', function(event) {
     console.log('[Service Worker] Activating Service Worker ....', event);
-    console.log(globalThis);
+
     event.waitUntil(caches.keys()
         .then(function(keyList) {
             console.log('keyList', keyList)
             return Promise.all(keyList.map(function(key) {
-                if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
+                if (key !== CACHE_NAME && key !== CACHE_CORE_NAME) {
                     console.log('[Service Worker] Removing old cache.', key);
                     return caches.delete(key);
                 }
             }));
         }));
-    return self.clients.claim();
+    clearCaches().then( () => {
+        return self.clients.claim();
+    })
 });
 
 self.addEventListener('install',  () => {
@@ -48,7 +61,7 @@ self.addEventListener('fetch', (e) => {
             return r
             }
             return fetch(e.request).then((response) => {
-                return caches.open(CACHE_STATIC_NAME).then((cache) => {
+                return caches.open(CACHE_NAME).then((cache) => {
                     if (!e.request.url.includes("@")) {
                         // don't cache in development
                         console.log('Caching resource: '+e.request.url);
