@@ -59,7 +59,8 @@ self.addEventListener('fetch', async (fetchEvent) => {
         return fetch(fetchEvent.request).then((response) => {
             return caches.open(swConstants.CACHE_NAME).then((cache) => {
                 if (!fetchEvent.request.url.includes('@')) {
-                    // don't cache in development
+                    // don't cache in development mode (the @ is used for the vite
+                    // server files)
                     Debug.log('[Service Worker] Caching resource: ' +
                         fetchEvent.request.url);
                     cache.put(fetchEvent.request, response.clone());
