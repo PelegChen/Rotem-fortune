@@ -13,3 +13,19 @@ class ServiceWorkerConstants {
     };
 
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class SwDebug {
+    static isDebugMode = false;
+
+    static isLoggingToConsole() {
+        return self.location.hostname === 'localhost' && !SwDebug.isDebugMode;
+    }
+
+    static log(...args) {
+        if (!SwDebug.isLoggingToConsole()) {
+            return;
+        }
+        console.log(...args);
+    }
+}
+

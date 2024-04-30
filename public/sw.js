@@ -7,23 +7,11 @@ const VERSION = 'version_00';
 
 // eslint-disable-next-line no-undef
 class SwConstants extends ServiceWorkerConstants {}
+// eslint-disable-next-line no-undef
+class Debug extends SwDebug {}
 
+Debug.isDebugMode = !DEBUG_MODE;
 SwConstants.VERSION = VERSION;
-
-class Debug {
-    static ConsoleOff = !DEBUG_MODE;
-
-    static isLoggingToConsole() {
-        return self.location.hostname === 'localhost' && !Debug.ConsoleOff;
-    }
-
-    static log(...args) {
-        if (!Debug.isLoggingToConsole()) {
-            return;
-        }
-        console.log(...args);
-    }
-}
 
 
 
