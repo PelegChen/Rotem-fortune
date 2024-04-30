@@ -61,11 +61,11 @@
         const siteName =   `%VITE_SITE_NAME%`
 
         if (location.hostname === 'localhost') {
-            navigator.serviceWorker.register('/sw.js');
+            navigator.serviceWorker.register('/sw.mjs', {type: 'module', });
             console.log( `Service worker registered (Rotem's Forturne)`)
 
         } else {
-            navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/' });
+            navigator.serviceWorker.register('/Rotem-fortune/sw.js', { scope: '/Rotem-fortune/',type: 'module' });
 
         }
         if (siteName !== "RotemForturne") {
