@@ -29,7 +29,7 @@ const clearCaches = async () => {
     });
 };
 
-self.addEventListener('activate',   (activationEvent)=> {
+self.addEventListener('activate',   async(activationEvent)=> {
     Debug.log(`[Service Worker] Activating Service Worker version ${swConstants.version} ....`);
     activationEvent.waitUntil(caches.keys()
         .then(function(keyList) {
@@ -47,11 +47,11 @@ self.addEventListener('activate',   (activationEvent)=> {
     });
 });
 
-self.addEventListener('install',   () => {
+self.addEventListener('install',   async () => {
     self.skipWaiting().then(() => Debug.log(` [Service Worker] Installing Service Worker ${swConstants.swName}`   ));
 });
 
-self.addEventListener('fetch', (fetchEvent) => {
+self.addEventListener('fetch', async (fetchEvent) => {
     fetchEvent.respondWith(caches.match(fetchEvent.request).then((fetchResponse) => {
         if (fetchResponse) {
             Debug.debounceLog('[Service Worker] From cache: ' + fetchEvent.request.url);
