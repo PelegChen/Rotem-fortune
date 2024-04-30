@@ -1,5 +1,5 @@
-// Change this to your repository name
-// import { ServiceWorkerConstants } from './sw-utils.mjs';
+
+//  import { ServiceWorkerConstants } from './sw-utils.mjs';
 
 
 const GHPATH = '/Rotem-fortune';
