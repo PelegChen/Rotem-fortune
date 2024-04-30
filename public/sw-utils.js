@@ -1,15 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class ServiceWorkerConstants {
+    static swName = 'Rotem-fortune';
     static   GHPATH = '/Rotem-fortune';
     static   APP_PREFIX = 'rtmfort_';
-    static   VERSION = 'version_00';
+    version = 'version_00';
 
-    static get CACHE_CORE_NAME() {
+    constructor({ version }) {
+        this.version = version;
+    }
+
+    get CACHE_CORE_NAME() {
         return ServiceWorkerConstants.APP_PREFIX + 'core'; // core
     }
 
-    static get CACHE_NAME() {
-        return ServiceWorkerConstants.APP_PREFIX + ServiceWorkerConstants.VERSION;
+    get CACHE_NAME() {
+        return ServiceWorkerConstants.APP_PREFIX + this.version;
     };
 
 }
@@ -41,7 +46,12 @@ class ServiceWorkerDebug {
         }
         if (!ServiceWorkerDebug.intervalId) {
             ServiceWorkerDebug.intervalId = setTimeout(() => {
-                ServiceWorkerDebug.log(ServiceWorkerDebug.logsRecord);
+                if (ServiceWorkerDebug.logsRecord.length > 10) {
+                    ServiceWorkerDebug.log({logRecords: ServiceWorkerDebug.logsRecord })
+                } else {
+
+                    ServiceWorkerDebug.log(ServiceWorkerDebug.logsRecord);
+                }
                 ServiceWorkerDebug.logsRecord = [];
                 clearTimeout(ServiceWorkerDebug.intervalId);
             }, ServiceWorkerDebug.debounceTime);

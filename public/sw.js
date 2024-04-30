@@ -2,38 +2,43 @@
 importScripts('./sw-utils.js');
 
 const DEBUG_MODE = true;
-const VERSION = 'version_01';
 
-// eslint-disable-next-line no-undef
-class SwConstants extends ServiceWorkerConstants {}
+
+
+const swConstants =
+    // eslint-disable-next-line no-undef
+    new ServiceWorkerConstants ({version: 'version_01'  })
 
 // eslint-disable-next-line no-undef
 class Debug extends ServiceWorkerDebug {}
 
 Debug.isDebugMode = !DEBUG_MODE;
-SwConstants.VERSION = VERSION;
 
+
+
+console.log(' swConstants.CACHE_NAME' )
+console.log( swConstants.CACHE_NAME )
 
 const clearCaches = async () => {
     return caches.keys().then(function(keys) {
         return Promise.all(keys.filter(function(key) {
-            return key.indexOf(SwConstants.CACHE_NAME) !== 0;
+            return key.indexOf(swConstants.CACHE_NAME) !== 0;
         }).map(function(key) {
-            console.log('Removing old cache: ' + key);
+            Debug.log('Removing old cache: ' + key);
             return caches.delete(key);
         }));
     });
 };
 
 self.addEventListener('activate', function(activationEvent) {
-    Debug.log('[Service Worker] Activating Service Worker ....');
+    Debug.log(`[Service Worker] Activating Service Worker ${swConstants.swName} ....`);
 
     activationEvent.waitUntil(caches.keys()
         .then(function(keyList) {
             Debug.log('keyList', keyList);
             return Promise.all(keyList.map(function(key) {
-                if (key !== SwConstants.CACHE_NAME && key !==
-                    SwConstants.CACHE_CORE_NAME) {
+                if (key !== swConstants.CACHE_NAME && key !==
+                    swConstants.CACHE_CORE_NAME) {
                     Debug.log('[Service Worker] Removing old cache.', key);
                     return caches.delete(key);
                 }
@@ -45,7 +50,7 @@ self.addEventListener('activate', function(activationEvent) {
 });
 
 self.addEventListener('install', () => {
-    self.skipWaiting().then(r => Debug.log('installing', r));
+    self.skipWaiting().then(() => Debug.log('installing' ));
 });
 
 self.addEventListener('fetch', (fetchEvent) => {
@@ -55,7 +60,7 @@ self.addEventListener('fetch', (fetchEvent) => {
             return fetchResponse;
         }
         return fetch(fetchEvent.request).then((response) => {
-            return caches.open(SwConstants.CACHE_NAME).then((cache) => {
+            return caches.open(swConstants.CACHE_NAME).then((cache) => {
                 if (!fetchEvent.request.url.includes('@')) {
                     // don't cache in development
                     Debug.log('Caching resource: ' + fetchEvent.request.url);
