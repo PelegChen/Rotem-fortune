@@ -4,7 +4,7 @@ importScripts('./sw-utils.js');
 const DEBUG_MODE = true;
 
 const swConstants = // eslint-disable-next-line no-undef
-    new ServiceWorkerConstants({ version: 'version_03' });
+    new ServiceWorkerConstants({ version: 'version_04' });
 
 // eslint-disable-next-line no-undef
 class Debug extends ServiceWorkerDebug {}
@@ -99,3 +99,7 @@ self.addEventListener('activate', activateEventHandler);
 self.addEventListener('install', installEventHandler);
 
 self.addEventListener('fetch',fetchEventHandler );
+
+self.addEventListener('message', (event) => {
+    console.log(event)
+});
