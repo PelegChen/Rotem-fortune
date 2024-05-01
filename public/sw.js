@@ -34,14 +34,14 @@ const clearCaches = async () => {
 };
 
 /**
-* @param { Event & {waitUntil : (Promise) =>Promise  }} activationEvent
-* @return {Promise<void>}
-*/
+ * @param { Event & {waitUntil : (Promise) =>Promise  }} activationEvent
+ * @return {Promise<void>}
+ */
 const activateEventHandler = async (activationEvent) => {
     Debug.log(`[Service Worker] Activating Service Worker version ${swConstants.version} ....`);
     await activationEvent.waitUntil(clearCaches());
     return self.clients.claim();
-}
+};
 /**
  *
  * @return {Promise<void>}
@@ -52,52 +52,74 @@ const installEventHandler = async () => {
 };
 
 
-
-
 const fetchRequestAndCache = async (request) => {
-  const response = await fetch(request)
-  const cache = await  caches.open(swConstants.CACHE_NAME)
-    if (! request.url.includes('@')) {
+    const response = await fetch(request);
+    const cache = await caches.open(swConstants.CACHE_NAME);
+    if (!request.url.includes('@')) {
         // don't cache in development mode (the @ is used for the vite
         // server files)
-        Debug.log('[Service Worker] Caching resource: ' +
-             request.url);
-       await cache.put( request, response.clone());
+        Debug.log('[Service Worker] Caching resource: ' + request.url);
+        await cache.put(request, response.clone());
     }
 
     return response;
-}
+};
+
+const fetchEventHandler2 = async (fetchEvent) => {
+    const cachedResponse = await caches.match(fetchEvent.request);
+    if (cachedResponse) {
+        Debug.debounceLog('[Service Worker] From cache: ' + fetchEvent.request.url);
+        return cachedResponse;
+    } else {
+        const responseFromFetch = await fetch(fetchEvent.request);
+        const cache = await caches.open(swConstants.CACHE_NAME);
+        if (!fetchEvent.request.url.includes('@')) {
+            // don't cache in development mode (the @ is used for the vite
+            // server files)
+            Debug.log('[Service Worker] Caching resource: ' + fetchEvent.request.url);
+            cache.put(fetchEvent.request, responseFromFetch.clone()).then();
+            return responseFromFetch;
+        }
+    }
+};
+
 /**
  * @param {FetchEvent} fetchEvent
  * @return {Promise<FetchEvent>}
  */
 const fetchEventHandler = async (fetchEvent) => {
-    fetchEvent.respondWith(caches.match(fetchEvent.request).then((fetchResponse) => {
-        if (fetchResponse) {
-            Debug.debounceLog('[Service Worker] From cache: ' + fetchEvent.request.url);
-            return fetchResponse;
-        }
-        return fetch(fetchEvent.request).then((response) => {
-            return caches.open(swConstants.CACHE_NAME).then((cache) => {
-                if (!fetchEvent.request.url.includes('@')) {
-                    // don't cache in development mode (the @ is used for the vite
-                    // server files)
-                    Debug.log('[Service Worker] Caching resource: ' +
-                        fetchEvent.request.url);
-                    cache.put(fetchEvent.request, response.clone());
-                }
+    fetchEvent.respondWith(new Promise((resolve) => {
+        caches.match(fetchEvent.request).then((fetchResponse) => {
+            if (fetchResponse) {
+                Debug.debounceLog('[Service Worker] From cache: ' +
+                    fetchEvent.request.url);
+                return resolve(fetchResponse);
+            }
+            return fetch(fetchEvent.request).then((response) => {
+                return caches.open(swConstants.CACHE_NAME).then((cache) => {
+                    if (!fetchEvent.request.url.includes('@')) {
+                        // don't cache in development mode (the @ is used for the vite
+                        // server files)
+                        Debug.log('[Service Worker] Caching resource: ' +
+                            fetchEvent.request.url);
+                        cache.put(fetchEvent.request, response.clone());
+                    }
 
-                return response;
+                    return resolve(response);
+                });
             });
         });
     }));
-}
+};
 
 
 self.addEventListener('activate', activateEventHandler);
 
 self.addEventListener('install', installEventHandler);
 
-self.addEventListener('fetch',fetchEventHandler );
+self.addEventListener('fetch', fetchEventHandler);
 
+self.addEventListener('message', (event) => {
+    console.log(event);
+});
 
