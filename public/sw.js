@@ -52,11 +52,6 @@ const installEventHandler = async () => {
 };
 
 
-
-
-
-
-
 /**
  * @param {FetchEvent} fetchEvent
  * @return {Promise<FetchEvent>}
