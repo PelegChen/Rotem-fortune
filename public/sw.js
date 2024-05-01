@@ -52,95 +52,36 @@ const installEventHandler = async () => {
 };
 
 
-const fetchRequestAndCache = async (request) => {
-    const response = await fetch(request);
-    const cache = await caches.open(swConstants.CACHE_NAME);
-    if (!request.url.includes('@')) {
-        // don't cache in development mode (the @ is used for the vite
-        // server files)
-        Debug.log('[Service Worker] Caching resource: ' + request.url);
-        await cache.put(request, response.clone());
-    }
 
-    return response;
-};
 
-const fetchEventHandler2 = async (fetchEvent) => {
-    const cachedResponse = await caches.match(fetchEvent.request);
-    if (cachedResponse) {
-        Debug.debounceLog('[Service Worker] From cache: ' + fetchEvent.request.url);
-        return cachedResponse;
-    } else {
-        const responseFromFetch = await fetch(fetchEvent.request);
-        const cache = await caches.open(swConstants.CACHE_NAME);
-        if (!fetchEvent.request.url.includes('@')) {
-            // don't cache in development mode (the @ is used for the vite
-            // server files)
-            Debug.log('[Service Worker] Caching resource: ' + fetchEvent.request.url);
-            cache.put(fetchEvent.request, responseFromFetch.clone()).then();
-        }
-        return responseFromFetch;
-    }
-};
-const fetchEventHandler3 = (fetchEvent) => {
-    return fetchEventHandler2(fetchEvent);
-    // return new Promise(  (resolve) => {
-    //
-    //
-    //     caches.match(fetchEvent.request).then((fetchResponse) => {
-    //         if (fetchResponse) {
-    //             Debug.debounceLog('[Service Worker] From cache: ' +
-    //                 fetchEvent.request.url);
-    //             return resolve(fetchResponse);
-    //         }
-    //         return fetch(fetchEvent.request).then((response) => {
-    //             return caches.open(swConstants.CACHE_NAME).then((cache) => {
-    //                 if (!fetchEvent.request.url.includes('@')) {
-    //                     // don't cache in development mode (the @ is used for the vite
-    //                     // server files)
-    //                     Debug.log('[Service Worker] Caching resource: ' +
-    //                         fetchEvent.request.url);
-    //                     cache.put(fetchEvent.request, response.clone());
-    //                 }
-    //
-    //                 return resolve(response);
-    //             });
-    //         });
-    //     });
-    // })
-};
+
+
 
 /**
  * @param {FetchEvent} fetchEvent
  * @return {Promise<FetchEvent>}
  */
 const fetchEventHandler = async (fetchEvent) => {
-    fetchEvent.respondWith(fetchEventHandler3(fetchEvent),
+    const responsePromise = async (fetchEvent) => {
+        const cachedResponse = await caches.match(fetchEvent.request);
+        if (cachedResponse) {
+            Debug.debounceLog('[Service Worker] From cache: ' + fetchEvent.request.url);
+            return cachedResponse;
+        } else {
+            const responseFromFetch = await fetch(fetchEvent.request);
+            const cache = await caches.open(swConstants.CACHE_NAME);
+            if (!fetchEvent.request.url.includes('@')) {
+                // don't cache in development mode (the @ is used for the vite
+                // server files)
+                Debug.log('[Service Worker] Caching resource: ' + fetchEvent.request.url);
+                // this needs to be async, otherwise the response will be stalled
+                cache.put(fetchEvent.request, responseFromFetch.clone()).then();
+            }
+            return responseFromFetch;
+        }
+    };
 
-        //     new Promise((resolve) => {
-        //
-        //
-        //     caches.match(fetchEvent.request).then((fetchResponse) => {
-        //         if (fetchResponse) {
-        //             Debug.debounceLog('[Service Worker] From cache: ' +
-        //                 fetchEvent.request.url);
-        //             return resolve(fetchResponse);
-        //         }
-        //         return fetch(fetchEvent.request).then((response) => {
-        //             return caches.open(swConstants.CACHE_NAME).then((cache) => {
-        //                 if (!fetchEvent.request.url.includes('@')) {
-        //                     // don't cache in development mode (the @ is used for the vite
-        //                     // server files)
-        //                     Debug.log('[Service Worker] Caching resource: ' +
-        //                         fetchEvent.request.url);
-        //                     cache.put(fetchEvent.request, response.clone());
-        //                 }
-        //
-        //                 return resolve(response);
-        //             });
-        //         });
-        //     });
-        // })
+    fetchEvent.respondWith(responsePromise(fetchEvent),
     );
 };
 
