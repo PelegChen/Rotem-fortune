@@ -82,13 +82,12 @@ const fetchEventHandler2 = async (fetchEvent) => {
         }
     }
 };
+const fetchEventHandler3 = (fetchEvent) => {
+    return new Promise((resolve) => {
+        // fetchEventHandler2(fetchEvent).then(result=>{
+        //     resolve(result);
+        // })
 
-/**
- * @param {FetchEvent} fetchEvent
- * @return {Promise<FetchEvent>}
- */
-const fetchEventHandler = async (fetchEvent) => {
-    fetchEvent.respondWith(new Promise((resolve) => {
         caches.match(fetchEvent.request).then((fetchResponse) => {
             if (fetchResponse) {
                 Debug.debounceLog('[Service Worker] From cache: ' +
@@ -109,7 +108,42 @@ const fetchEventHandler = async (fetchEvent) => {
                 });
             });
         });
-    }));
+    })
+}
+
+/**
+ * @param {FetchEvent} fetchEvent
+ * @return {Promise<FetchEvent>}
+ */
+const fetchEventHandler = async (fetchEvent) => {
+    fetchEvent.respondWith(
+        fetchEventHandler3(fetchEvent)
+
+    //     new Promise((resolve) => {
+    //
+    //
+    //     caches.match(fetchEvent.request).then((fetchResponse) => {
+    //         if (fetchResponse) {
+    //             Debug.debounceLog('[Service Worker] From cache: ' +
+    //                 fetchEvent.request.url);
+    //             return resolve(fetchResponse);
+    //         }
+    //         return fetch(fetchEvent.request).then((response) => {
+    //             return caches.open(swConstants.CACHE_NAME).then((cache) => {
+    //                 if (!fetchEvent.request.url.includes('@')) {
+    //                     // don't cache in development mode (the @ is used for the vite
+    //                     // server files)
+    //                     Debug.log('[Service Worker] Caching resource: ' +
+    //                         fetchEvent.request.url);
+    //                     cache.put(fetchEvent.request, response.clone());
+    //                 }
+    //
+    //                 return resolve(response);
+    //             });
+    //         });
+    //     });
+    // })
+    );
 };
 
 
