@@ -84,9 +84,7 @@ const fetchEventHandler2 = async (fetchEvent) => {
 };
 const fetchEventHandler3 = (fetchEvent) => {
     return new Promise((resolve) => {
-        // fetchEventHandler2(fetchEvent).then(result=>{
-        //     resolve(result);
-        // })
+
 
         caches.match(fetchEvent.request).then((fetchResponse) => {
             if (fetchResponse) {
