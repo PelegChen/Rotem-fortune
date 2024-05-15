@@ -30,7 +30,7 @@ export const characters: Character[] = [
 
     {
         name: 'hagrid',
-        hebrew: 'הגריד',
+        hebrew: 'האגריד',
         file: 'hagrid.png',
         isFemale: false,
     },
