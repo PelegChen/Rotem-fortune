@@ -4,7 +4,7 @@ importScripts('./sw-utils.js');
 const DEBUG_MODE = true;
 
 const swConstants = // eslint-disable-next-line no-undef
-    new ServiceWorkerConstants({ version: 'version_07' });
+    new ServiceWorkerConstants({ version: 'version_08' });
 
 // eslint-disable-next-line no-undef
 class Debug extends ServiceWorkerDebug {}
