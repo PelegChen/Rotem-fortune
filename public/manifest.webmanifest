@@ -4,13 +4,13 @@
   "description": "Forturne teller for Rotem",
   "scope": "/Rotem-fortune/",
   "start_url": "/Rotem-fortune/",
-  "background_color": "#5b21b6",
-  "theme_color": "#5b21b6",
+  "background_color": "#9b6ee8",
+  "theme_color": "#9b6ee8",
   "display": "standalone",
 
   "icons": [
       {
-        "src": "/Rotem-fortune/ft_1.png",
+        "src": "/Rotem-fortune/splash.png",
         "type": "image/png",
         "sizes": "700x700"
       }
