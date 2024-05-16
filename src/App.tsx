@@ -47,7 +47,7 @@ function App() {
 
 
                     <div id={'upper-text-container'} style={{ lineHeight: '105%' }}
-                         className={'flex flex-row justify-center  items-center my-4  text-[2.5rem]'}>
+                         className={'flex flex-row justify-center  items-center my-4  text-[3.6rem]'}>
                         <div className={' shofar  flex justify-center items-center flex-row tracking-wide '} dir={'rtl'}>
                             <span> {character.hebrew} </span>
                         </div>
@@ -67,7 +67,9 @@ function App() {
                         </select>
                     </div>
                 </div>
-                <div style={{ transform: `translateX(${translateX}px)` }} id={'image-container'} className={`relative max-h-screen flex flex-row justify-center items-start md:w-full  
+                <div style={{ transform: `translateX(${translateX}px)`,
+
+                }} id={'image-container'} className={`relative max-h-screen flex flex-row justify-center items-start md:w-full  
                        w-[786px]  `}>
 
                     <div className={'relative'}>
@@ -79,7 +81,10 @@ function App() {
                         <div className={'relative z-20'}>
                             <img
                                 src={getImageSource(character.name)}
-                                style={{ boxShadow: '0 0 20px 4px white' }}
+                                style={{ boxShadow: '0 0 20px 4px white',
+                                    borderTopLeftRadius: '50%' ,
+                                    borderTopRightRadius: '50%' ,
+                                }}
                                 alt="fortune teller" className=" h-full  object-scale-down rounded-[7px] z-20" />
                         </div>
 
