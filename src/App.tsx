@@ -47,8 +47,8 @@ function App() {
 
 
                     <div id={'upper-text-container'} style={{ lineHeight: '105%' }}
-                         className={'flex flex-row justify-center  items-center my-4  text-[2rem]'}>
-                        <div className={'  flex justify-center items-center flex-row '} dir={'rtl'}>
+                         className={'flex flex-row justify-center  items-center my-4  text-[2.5rem]'}>
+                        <div className={' shofar  flex justify-center items-center flex-row tracking-wide '} dir={'rtl'}>
                             <span> {character.hebrew} </span>
                         </div>
 

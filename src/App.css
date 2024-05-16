@@ -2,13 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Hillel';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/hillelclm-medium-webfont.woff') format('woff');
+}
+@font-face {
+  font-family: 'Shofar';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('assets/fonts/shofardemi-bold-webfont.woff') format('woff');
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /*font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;*/
+  font-family: Hillel, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.shofar {
+  font-family: Shofar, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .try-it {
