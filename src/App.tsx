@@ -50,6 +50,8 @@ function App() {
                          className={'flex flex-row justify-center  items-center my-4  text-[3.6rem]'}>
                         <div className={' shofar  flex justify-center items-center flex-row tracking-wide '} dir={'rtl'}>
                             <span> {character.hebrew} </span>
+
+
                         </div>
 
                     </div>
