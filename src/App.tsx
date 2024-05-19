@@ -3,7 +3,7 @@ import { useInterval } from './hooks/useInterval.ts';
 import React from 'react';
 import { characters } from './data/characters.ts';
 import { BallsOfLight } from './animations/BallsOfLight/BallsOfLight.tsx';
-import { FuturePopup } from './ui/FuturePopup.tsx';
+import { FuturePopup } from './components/FuturePopup.tsx';
 import { useWindowSize } from './hooks/useWindowResize.ts';
 import { getImageSource } from './images/getImageSource.ts';
 

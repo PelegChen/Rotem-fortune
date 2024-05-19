@@ -1,4 +1,4 @@
-import { DialogModal } from './dialog/DialogModal.tsx';
+import { DialogModal } from '../library/dialog/DialogModal.tsx';
 
 import { builtTextContent } from '../content/builtTextContent.tsx';
 import { buildFortuneBasedOnCharAndDate } from '../content/buildFortuneBasedOnCharAndDate.ts';
