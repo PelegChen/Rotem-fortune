@@ -58,7 +58,7 @@
 <div id="root"></div>
 <script>
 
-    if (navigator.serviceWorker) {
+    if (navigator.serviceWorker && false) {
 
         const siteName = `%VITE_SITE_NAME%`;
         navigator.serviceWorker.addEventListener('controllerchange', (ev) => {
@@ -125,6 +125,7 @@
         });
 
     };
+
 
 
     window.addEventListener('beforeinstallprompt', (event) => {
